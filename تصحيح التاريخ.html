@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>عكس ترتيب الجمل</title>
+	<meta charset="utf-8">
+	
+	<script>
+		function reverseSentence(event) {
+			// التحقق من الضغط على زر Enter (المفتاح رقم 13)
+			if (event.keyCode === 13) {
+				// احصل على النص المدخل في حقل الإدخال
+				var sentenceInput = document.getElementById("sentenceInput").value;
+				// قم بتقسيم الجملة إلى كلمات باستخدام العلامة "/"
+				var sentenceArray = sentenceInput.split("/");
+				// عكس ترتيب الكلمات
+				var reversedSentence = sentenceArray.reverse().join("/");
+				// التحقق من وجود الحرف "م" أو "هـ" ونقله إلى نهاية الجملة
+				if (reversedSentence.includes("م")) {
+					reversedSentence = reversedSentence.replace("م", "") + "م";
+				} else if (reversedSentence.includes("هـ")) {
+					reversedSentence = reversedSentence.replace("هـ", "") + "هـ";
+				}
+				// ضع الجملة المعكوسة في حقل النص المعكوس
+				document.getElementById("reversedSentence").innerHTML = reversedSentence;
+				// نسخ النص المعكوس إلى الحافظة
+				var reversedSentenceArea = document.createElement("textarea");
+				reversedSentenceArea.value = reversedSentence;
+				document.body.appendChild(reversedSentenceArea);
+				reversedSentenceArea.select();
+				document.execCommand("copy");
+				document.body.removeChild(reversedSentenceArea);
+				// إظهار رسالة تأكيد النسخ إلى الحافظة بشكل صامت
+				document.getElementById("confirmationMessage").style.display = "block";
+				setTimeout(function(){
+					document.getElementById("confirmationMessage").style.display = "none";
+				}, 2000); // يتم إخفاء الرسالة بعد 2 ثانية
+			}
+		}
+	</script>
+</head>
+<body>
+	<label for="sentenceInput">الجملة:</label>
+	<input type="text" id="sentenceInput" name="sentenceInput" onkeydown="reverseSentence(event)">
+	<br><br>
+	<button onclick="reverseSentence(event)">عكس ترتيب الجمل</button>
+	<br><br>
+	<label for="reversedSentence">الجملة المعكوسة:</label>
+	<p id="reversedSentence"></p>
+	<p id="confirmationMessage" style="display: none;">تم نسخ النص المعكوس إلى الحافظة</p>
+</body>
+</html>
